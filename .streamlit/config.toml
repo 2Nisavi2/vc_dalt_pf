@@ -2,4 +2,8 @@
 primaryColor = "#1baf7a"
 
 [server]
+headless = true
 maxUploadSize = 200
+
+[browser]
+gatherUsageStats = false

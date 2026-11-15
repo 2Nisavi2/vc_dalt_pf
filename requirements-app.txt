@@ -1,0 +1,7 @@
+# Dependencias mínimas para servir la app (imagen de Railway). La CLI usa requirements.txt.
+streamlit>=1.39
+numpy
+pandas
+pillow
+requests
+onnxruntime

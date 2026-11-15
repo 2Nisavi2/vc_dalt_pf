@@ -1,0 +1,8 @@
+{
+  "name": "visionvial-railway",
+  "private": true,
+  "description": "Solo para la infraestructura como código de Railway (.railway/railway.ts). La app es Python.",
+  "devDependencies": {
+    "railway": "latest"
+  }
+}

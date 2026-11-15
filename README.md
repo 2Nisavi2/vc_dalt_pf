@@ -11,6 +11,11 @@ que además corrige los colores de la imagen según el tipo de daltonismo del us
 visionvial/
 ├── vv.py                      Línea de comandos: dataset, modelo, capturas, evaluar, publicar, estado
 ├── app.py                     Aplicación Streamlit (lee modelos/, resultados/ y assets/)
+├── Dockerfile                 Imagen de la app (Railway la usa automáticamente)
+├── requirements-app.txt       Dependencias mínimas de la imagen
+├── scripts/start.sh           Arranque de Streamlit en el puerto que asigna la plataforma
+├── scripts/railway_desplegar.sh  Despliegue en Railway con la CLI
+├── .railway/railway.ts        Infraestructura como código de Railway (opcional)
 ├── visionvial/                Paquete compartido por la CLI, la app y el notebook
 │   ├── config.py              Rutas, clases (SENALES) y credenciales
 │   ├── dataset.py             Descarga GTSRB y arma data/dataset/{train,test}
@@ -110,6 +115,62 @@ Streamlit Community Cloud redespliega la app con cada push. La app lee directame
 3. En **Settings → Secrets** pegar `CV_PREDICTION_ENDPOINT` y `CV_PREDICTION_KEY`.
 4. Abrir `https://<app>.streamlit.app` en el celular (HTTPS habilita la cámara). En el celular, **Subir archivo**
    abre la cámara trasera nativa.
+
+## Desplegar en Railway
+
+El repositorio trae todo lo necesario: Railway encuentra el `Dockerfile` en la raíz, construye la imagen con
+`requirements-app.txt` y arranca con `scripts/start.sh`, que pasa a Streamlit el puerto asignado (`$PORT`).
+El modelo, las métricas y las capturas viajan dentro de la imagen, así que no hace falta volumen.
+
+> Railway marcó `railway.toml`/`railway.json` (Config as Code) como obsoletos: los servicios nuevos ya no
+> pueden usarlos. Por eso la configuración va en el `Dockerfile` y, de forma opcional, en `.railway/railway.ts`.
+
+### Opción A: desde el panel (conectado a GitHub, recomendado)
+
+1. Subir el repositorio a GitHub.
+2. En [railway.com](https://railway.com): **New Project → Deploy from GitHub repo** → elegir `visionvial`.
+3. En el servicio, pestaña **Variables**: crear `CV_PREDICTION_ENDPOINT` y `CV_PREDICTION_KEY`.
+   Sin ellas la app usa el modelo ONNX de `modelos/actual/`.
+4. Pestaña **Settings**:
+   - **Networking → Generate Domain**: crea `https://<app>.up.railway.app` (HTTPS, necesario para la cámara).
+   - **Deploy → Healthcheck Path**: `/_stcore/health`. No usar `/health`: Streamlit no tiene esa ruta y el
+     despliegue falla con 502.
+   - No definir *Start Command*: lo da el `Dockerfile`.
+5. Cada `python vv.py publicar` (push a GitHub) dispara un nuevo despliegue.
+
+### Opción B: desde la terminal (CLI de Railway)
+
+```bash
+npm i -g @railway/cli
+sh scripts/railway_desplegar.sh     # login, proyecto, variables desde secrets.toml, despliegue y dominio
+```
+
+Para redesplegar después de `python vv.py evaluar` o `python vv.py capturas`: `railway up --detach`
+(si el servicio no está conectado a GitHub).
+
+### Opcional: infraestructura como código
+
+`.railway/railway.ts` declara el servicio con su health check. Con el proyecto vinculado:
+
+```bash
+npm install                 # instala el paquete `railway` (solo para este archivo)
+npx railway config plan     # muestra los cambios
+npx railway config apply    # los aplica
+```
+
+### Probar la imagen en local
+
+```bash
+docker build -t visionvial .
+docker run --rm -p 8501:8501 -e CV_PREDICTION_ENDPOINT="..." -e CV_PREDICTION_KEY="..." visionvial
+# abrir http://localhost:8501
+```
+
+### Costo y recursos
+
+Railway no tiene un plan gratuito permanente: la prueba da un crédito único y luego se pasa al plan Free
+(crédito mensual pequeño, 0,5 GB de RAM por servicio) o al Hobby. La app carga onnxruntime y procesa fotos de
+celular, así que conviene revisar el consumo de memoria en la pestaña **Metrics** del servicio.
 
 ## Ejecutar en local
 

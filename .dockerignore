@@ -1,0 +1,25 @@
+# Lo que NO entra en la imagen
+.git
+.gitignore
+.venv
+venv
+__pycache__
+*.pyc
+.ipynb_checkpoints
+.pytest_cache
+
+# Credenciales: en Railway van como variables del servicio
+.streamlit/secrets.toml
+.env
+
+# Datos pesados y caché de evaluación
+data
+resultados/cache
+
+# No se necesitan para servir la app
+notebooks
+tests
+.railway
+package.json
+Dockerfile
+.dockerignore
