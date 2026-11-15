@@ -1,0 +1,17 @@
+# Credenciales: nunca al repositorio
+.streamlit/secrets.toml
+.env
+
+# Datos pesados (se regeneran con `python vv.py dataset`)
+data/*
+!data/README.md
+
+# Caché de predicciones por modelo (se regenera con `python vv.py evaluar`)
+resultados/cache/
+
+# Python / notebooks
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/

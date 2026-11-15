@@ -1,0 +1,9 @@
+# App (Streamlit Community Cloud) y línea de comandos
+streamlit>=1.39
+numpy
+pandas
+pillow
+requests
+onnxruntime
+scikit-learn
+matplotlib
