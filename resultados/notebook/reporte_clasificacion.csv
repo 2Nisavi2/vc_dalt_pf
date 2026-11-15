@@ -1,0 +1,14 @@
+,precision,recall,f1-score,support,categoria
+ceda_el_paso,1.0,1.0,1.0,50.0,Reglamentaria
+curva_peligrosa,0.976,0.8,0.879,50.0,Preventiva
+no_entre,0.943,1.0,0.971,50.0,Reglamentaria
+obras,0.85,0.68,0.756,50.0,Transitoria
+pare,1.0,0.92,0.958,50.0,Reglamentaria
+peatones,0.639,0.92,0.754,50.0,Preventiva
+prohibido_adelantar,1.0,1.0,1.0,50.0,Reglamentaria
+semaforo_adelante,1.0,0.86,0.925,50.0,Preventiva
+velocidad_maxima,0.98,1.0,0.99,50.0,Reglamentaria
+zona_escolar,0.833,0.9,0.865,50.0,Preventiva
+accuracy,0.908,0.908,0.908,500.0,
+macro avg,0.922,0.908,0.91,500.0,
+weighted avg,0.922,0.908,0.91,500.0,

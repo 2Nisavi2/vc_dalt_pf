@@ -1,198 +1,318 @@
-# 🚦 VisionVial
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://cmspreprod.lasalle.edu.co/sites/default/files/2026-04/Versi%C3%B3n%20en%20blanco.png">
+    <img src="https://cmspreprod.lasalle.edu.co/sites/default/files/2026-04/Versi%C3%B3n%20en%20blanco.png" alt="Universidad de La Salle" width="320">
+  </picture>
+</p>
 
-**Reconocimiento de señales de tránsito y corrección de color para personas con daltonismo.**
-Proyecto final de Visión por Computadora (Maestría en Inteligencia Artificial): un clasificador de 10 señales
-entrenado y publicado en **Azure AI Custom Vision**, integrado en una aplicación web con cámara (**Streamlit**)
-que además corrige los colores de la imagen según el tipo de daltonismo del usuario.
+<h1 align="center">🚦 VisionVial</h1>
+<p align="center"><b>Reconocimiento de señales de tránsito y corrección de color para personas con daltonismo</b></p>
+<p align="center"><b>Visión por Computadora · Actividad 6: Proyecto Final · Maestría en Inteligencia Artificial</b></p>
 
-## Estructura
+<p align="center">
+  <a href="https://vcdaltpf-production.up.railway.app/"><img src="https://img.shields.io/badge/Aplicaci%C3%B3n-en%20l%C3%ADnea-1BAF7A?style=for-the-badge&logo=railway&logoColor=white" alt="Aplicación en línea"></a>
+  <img src="https://img.shields.io/badge/Python-3.12-003580?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12">
+  <img src="https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/Azure-Custom%20Vision-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Azure Custom Vision">
+  <img src="https://img.shields.io/badge/ONNX-Runtime-005CED?style=for-the-badge&logo=onnx&logoColor=white" alt="ONNX Runtime">
+</p>
+
+---
+
+## 📌 Descripción
+
+Proyecto final de Visión por Computadora (Maestría en Inteligencia Artificial, Universidad de La Salle).
+Las personas con daltonismo pueden ver la **forma** de una señal de tránsito, pero no siempre su **categoría**,
+que en Colombia se comunica por color: rojo para las reglamentarias, amarillo para las preventivas y naranja
+para las de obras. VisionVial resuelve ese problema en dos frentes:
+
+1. 🧠 **Clasificador de imágenes** de 10 señales de tránsito, entrenado y publicado en **Azure AI Custom Vision**
+   (área de aplicación: reconocimiento de objetos). La app comunica la señal, su categoría y su color **en texto**.
+2. 🎨 **Corrección de color (daltonización)** de la foto según el tipo de daltonismo del usuario (protanopía,
+   deuteranopía o tritanopía), para recuperar las diferencias de color que la persona no percibe.
+
+El repositorio contiene:
+
+- ⌨️ **Línea de comandos** (`python vv.py`) para preparar el dataset, cargar el modelo entrenado y los
+  pantallazos del entrenamiento, evaluar el modelo y publicar los resultados.
+- 📱 **Aplicación web en Streamlit** con cámara, carga de lotes (ZIP), simulador de daltonismo, métricas del
+  modelo y documentación del entrenamiento. Se publica en **Railway** y se actualiza con cada push.
+- 📓 **Notebook** con el análisis descriptivo del dataset, la documentación del entrenamiento y la evaluación
+  por el endpoint.
+
+🔗 **Aplicación en línea:** https://vcdaltpf-production.up.railway.app/
+
+👤 **Autores:** Brhayan Liberato Tafur y Diego Nicolás Ávila Moreno.
+
+---
+
+## 📊 Resultados
+
+Evaluación de la iteración publicada (**Iteration3**, endpoint de Azure) sobre **500 imágenes de prueba
+independientes** (50 por clase), que no se usaron en el entrenamiento:
+
+| Métrica | Valor |
+|---|---|
+| Accuracy | **0,910** |
+| F1-score macro | **0,912** |
+| AUC macro (uno contra el resto) | **0,993** |
+
+El detalle por clase, la matriz de confusión, las curvas ROC, el error de categoría, el umbral de confianza
+recomendado y el experimento de daltonismo están en `resultados/` y en la pestaña **📊 Desempeño del modelo**
+de la aplicación.
+
+---
+
+## 🗂️ Estructura
 
 ```
-visionvial/
-├── vv.py                      Línea de comandos: dataset, modelo, capturas, evaluar, publicar, estado
-├── app.py                     Aplicación Streamlit (lee modelos/, resultados/ y assets/)
-├── Dockerfile                 Imagen de la app (Railway la usa automáticamente)
-├── requirements-app.txt       Dependencias mínimas de la imagen
-├── scripts/start.sh           Arranque de Streamlit en el puerto que asigna la plataforma
-├── scripts/railway_desplegar.sh  Despliegue en Railway con la CLI
-├── .railway/railway.ts        Infraestructura como código de Railway (opcional)
-├── visionvial/                Paquete compartido por la CLI, la app y el notebook
-│   ├── config.py              Rutas, clases (SENALES) y credenciales
-│   ├── dataset.py             Descarga GTSRB y arma data/dataset/{train,test}
-│   ├── modelo.py              Registro del modelo y predicción (endpoint de Azure u ONNX exportado)
-│   ├── capturas.py            Importa los pantallazos del entrenamiento en Custom Vision
-│   ├── evaluacion.py          Precision, recall, F1, matriz de confusión, ROC/AUC, umbral y experimento
-│   └── daltonismo.py          Simulación (Machado 2009) y corrección (Fidaner 2005)
-├── notebooks/custom_vision_senales.ipynb   Descriptivos, documentación y evaluación por endpoint
-├── modelos/actual/            Modelo registrado: model.onnx, labels.txt, info.json        (se versiona)
-├── resultados/                metricas.json, CSV y PNG de la evaluación                   (se versiona)
-├── assets/entrenamiento/      Pantallazos de Custom Vision + capturas.json                (se versiona)
-├── assets/app/                Pantallazos de la aplicación                                (se versiona)
-├── data/                      Dataset local (no se versiona)
-└── tests/                     Modelo ONNX sintético y pruebas del flujo
+├── vv.py                        # CLI: dataset, modelo, capturas, evaluar, publicar, estado
+├── app.py                       # aplicación Streamlit (lee modelos/, resultados/ y assets/)
+├── visionvial/                  # paquete compartido por la CLI, la app y el notebook
+│   ├── config.py                # rutas, clases (SENALES), categorías y credenciales
+│   ├── dataset.py               # descarga GTSRB y arma data/dataset/{train,test}
+│   ├── modelo.py                # registro y predicción: endpoint de Azure u ONNX exportado
+│   ├── capturas.py              # importa los pantallazos del entrenamiento en Custom Vision
+│   ├── evaluacion.py            # precision, recall, F1, matriz de confusión, ROC/AUC, umbral, experimento
+│   └── daltonismo.py            # simulación (Machado 2009) y corrección (Fidaner 2005)
+├── notebooks/
+│   └── custom_vision_senales.ipynb   # descriptivos, entrenamiento documentado y evaluación por endpoint
+├── modelos/actual/              # modelo registrado: model.onnx, labels.txt, info.json
+├── resultados/                  # metricas.json, tablas (CSV) y gráficos (PNG) de la evaluación
+├── assets/
+│   ├── entrenamiento/           # pantallazos de Custom Vision + capturas.json
+│   └── app/                     # pantallazos de la aplicación
+├── tests/                       # pruebas y modelo ONNX sintético
+├── data/                        # dataset local (no se versiona)
+├── Dockerfile                   # imagen de la aplicación (Railway la usa automáticamente)
+├── scripts/start.sh             # arranque de Streamlit en el puerto asignado ($PORT)
+├── scripts/railway_desplegar.sh # despliegue con la CLI de Railway
+├── .railway/railway.ts          # infraestructura como código de Railway (opcional)
+├── requirements.txt             # dependencias de la CLI y el notebook
+└── requirements-app.txt         # dependencias mínimas de la aplicación (imagen de Railway)
 ```
 
-## Flujo de trabajo
+## ⚙️ 1. Instalación
+
+> 💡 Se recomienda **Python 3.12** (el mismo de la imagen de Railway).
 
 ```bash
+python -m venv .venv
+source .venv/bin/activate            # Windows (PowerShell): .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-cp .streamlit/secrets.toml.example .streamlit/secrets.toml     # completar endpoint y clave
+cp .streamlit/secrets.toml.example .streamlit/secrets.toml   # completar endpoint y clave
 ```
 
-### 1. Descargar y preparar las imágenes
+> ⚠️ En Windows, las rutas con espacios van **entre comillas** y sin `~`:
+> `--archivo "G:\Mi unidad\...\export_onnx.zip"`.
+
+## 📥 2. Preparación del dataset
 
 ```bash
 python vv.py dataset
 ```
 
-Descarga GTSRB (~300 MB), toma 150 imágenes por etiqueta para entrenamiento y 50 para prueba, y deja:
+Se usa el **GTSRB** (*German Traffic Sign Recognition Benchmark*): más de 50.000 recortes de señales en 43 clases,
+tomados de video en condiciones reales. Se seleccionan las clases con equivalente en Colombia y se agrupan en
+**10 etiquetas**:
 
-- `data/dataset/train/<etiqueta>/`: **se suben a Custom Vision**, una carpeta por etiqueta.
-- `data/dataset/test/<etiqueta>/`: prueba independiente, **no se suben**.
+| Etiqueta | Clases GTSRB | Categoría (Colombia) | Color |
+|---|---|---|---|
+| `velocidad_maxima` | 1, 2, 3, 4, 5, 7, 8 | Reglamentaria | 🔴 Rojo |
+| `prohibido_adelantar` | 9 | Reglamentaria | 🔴 Rojo |
+| `ceda_el_paso` | 13 | Reglamentaria | 🔴 Rojo |
+| `pare` | 14 | Reglamentaria | 🔴 Rojo |
+| `no_entre` | 17 | Reglamentaria | 🔴 Rojo |
+| `curva_peligrosa` | 19, 20, 21 | Preventiva | 🟡 Amarillo |
+| `semaforo_adelante` | 26 | Preventiva | 🟡 Amarillo |
+| `peatones` | 27 | Preventiva | 🟡 Amarillo |
+| `zona_escolar` | 28 | Preventiva | 🟡 Amarillo |
+| `obras` | 25 | Transitoria | 🟠 Naranja |
 
-Opciones: `--gtsrb-dir` (GTSRB ya descargado, p. ej. de Kaggle), `--extra fotos_bogota` (fotos propias en
+Por cada etiqueta se toman **150 imágenes de entrenamiento** de la partición oficial de entrenamiento. GTSRB
+guarda unas 30 tomas casi idénticas de cada señal física, por lo que la selección alterna entre ellas para evitar
+duplicados. También se toman **50 imágenes de prueba** de la partición oficial de prueba, que no comparte señales
+físicas con la de entrenamiento. Las imágenes se amplían a 256 px en el lado corto, como recomienda Custom Vision.
+
+| Carpeta | Uso |
+|---|---|
+| `data/dataset/train/<etiqueta>/` | se **cargan en Custom Vision**, una carpeta por etiqueta |
+| `data/dataset/test/<etiqueta>/` | prueba independiente: **no se cargan** |
+| `data/dataset/manifest.csv` | inventario con el origen y el tamaño original de cada imagen |
+
+Opciones: `--gtsrb-dir` (GTSRB ya descargado, p. ej. de Kaggle), `--extra <carpeta>` (fotos propias en
 subcarpetas con el nombre de la etiqueta), `--n-train`, `--n-test`.
 
-### 2. Entrenar en Azure Custom Vision (manual)
+## ☁️ 3. Entrenamiento en Azure Custom Vision
 
-1. Proyecto **Classification · Multiclass**, dominio **General (compact)** para poder exportar.
-2. Cargar cada carpeta de `data/dataset/train/` con su etiqueta.
-3. Entrenar, revisar la iteración, **publicarla** y **exportarla** (Export → **ONNX**).
-4. Tomar pantallazos de cada paso y guardarlos en una carpeta (en orden).
+El entrenamiento se hace en el portal de [Custom Vision](https://www.customvision.ai/):
 
-### 3. Cargar los resultados del entrenamiento al repositorio
+1. Proyecto **Classification · Multiclass** con dominio **General (compact)**. Solo las iteraciones entrenadas con
+   un dominio *compact* se pueden exportar.
+2. Carga de cada carpeta de `data/dataset/train/` con su etiqueta.
+3. Entrenamiento, revisión de las métricas de la iteración, **publicación** y **exportación** (*Export → ONNX*).
+4. Pantallazos de cada paso, guardados en una carpeta en orden.
 
-**a) El modelo entrenado** (para evaluarlo con métricas):
+## 🧠 4. Carga del modelo y de los pantallazos
 
-```bash
-python vv.py modelo --archivo ~/Descargas/export_onnx.zip --iteracion Iteration2 --dominio "General (compact)"
-python vv.py modelo --endpoint "https://<region>.api.cognitive.microsoft.com/customvision/v3.0/Prediction/<id>/classify/iterations/<iteracion>/image"
-```
-
-El zip exportado se registra en `modelos/actual/`, con una prueba de carga. El endpoint se registra en
-`info.json`; la clave queda solo en `.streamlit/secrets.toml`.
-
-**b) Los pantallazos del entrenamiento:**
+**Modelo entrenado** (para evaluarlo con métricas):
 
 ```bash
-python vv.py capturas --origen ~/pantallazos_acv --plantilla   # genera descripciones.csv para completar
-python vv.py capturas --origen ~/pantallazos_acv               # copia, ordena, renombra y crea el índice
-python vv.py capturas --origen ~/pantallazos_app --app         # (opcional) pantallazos de la app
+python vv.py modelo --archivo "<export_onnx.zip>" --iteracion Iteration3 --dominio "General (compact)"
+python vv.py modelo --endpoint "<Prediction URL de la iteración publicada>"
 ```
 
-### 4. Evaluar el modelo
+El ONNX se registra en `modelos/actual/` con una prueba de carga. El endpoint se prueba con una imagen y se
+guarda en `info.json`; la **Prediction-Key** queda solo en `.streamlit/secrets.toml`, que no se versiona.
+
+**Pantallazos del entrenamiento:**
 
 ```bash
-python vv.py evaluar                      # con el ONNX exportado (local, sin costo)
-python vv.py evaluar --backend endpoint   # con la API publicada (~1.700 llamadas, quedan en caché)
+python vv.py capturas --origen "<carpeta>" --plantilla      # genera descripciones.csv para completar
+python vv.py capturas --origen "<carpeta>"                  # ordena, renombra (Paso_01.png…) y crea el índice
+python vv.py capturas --origen "<carpeta_app>" --app        # pantallazos de la aplicación
 ```
 
-Escribe en `resultados/`: `metricas.json`, reporte de clasificación (precision, recall, F1), matriz de confusión,
-curvas ROC y AUC, desempeño por categoría, umbral de confianza recomendado, galería de errores y el
-experimento de daltonismo (imagen como la percibe la persona, sin y con corrección).
+Para revisar qué hay y qué falta: `python vv.py estado`.
 
-### 5. Actualizar la aplicación
+## 📏 5. Evaluación del modelo
 
 ```bash
-python vv.py estado      # qué hay y qué falta
-python vv.py publicar    # commit de modelos/, resultados/ y assets/ + git push
+python vv.py evaluar                      # con el ONNX exportado (local, sin costo por predicción)
+python vv.py evaluar --backend endpoint   # con la API publicada (~1.700 llamadas, guardadas en caché)
 ```
 
-Streamlit Community Cloud redespliega la app con cada push. La app lee directamente:
+Al terminar, la evaluación imprime un resumen:
 
-| Pestaña | Fuente |
-| --- | --- |
-| 📷 Foto, 🗂️ Lote | Endpoint de Azure (si hay secretos) o `modelos/actual/model.onnx` |
-| 📊 Desempeño del modelo | `resultados/metricas.json` y gráficos |
-| 🛠️ Entrenamiento en ACV | `assets/entrenamiento/capturas.json` |
-| Barra lateral | Umbral por defecto = `umbral_recomendado` de la evaluación |
+```
+RESULTADOS
+  Accuracy 0.910 · F1 macro 0.912 · AUC macro 0.993 · error de categoría …
+  Umbral de confianza recomendado para la app: …
+  Archivos en: resultados/
+```
 
-## Publicar la app (una sola vez)
+| Salida en `resultados/` | Contenido |
+|---|---|
+| `metricas.json` | resumen que lee la aplicación (métricas globales, por clase, umbral y experimento) |
+| `reporte_clasificacion.csv`, `metricas_por_clase.png` | precision, recall, F1-score y soporte por clase |
+| `matriz_confusion.csv` / `.png` | conteo y matriz normalizada por clase real |
+| `auc_por_clase.csv`, `curvas_roc.png` | curvas ROC uno contra el resto, AUC por clase, micro y macro |
+| `desempeno_por_categoria.csv` | accuracy y **error de categoría** (p. ej., una reglamentaria tomada por preventiva) |
+| `umbral_confianza.csv` / `.png` | cobertura y accuracy por umbral; umbral recomendado para la app |
+| `errores.png` | errores con mayor confianza |
+| `resultados_experimento.csv`, `experimento_daltonismo.png` | experimento de daltonismo (ver abajo) |
 
-1. Subir el repositorio a GitHub (`git remote add origin <url> && git push -u origin main`).
-2. En [share.streamlit.io](https://share.streamlit.io) crear la app con el archivo principal `app.py`
-   (Python 3.11 o superior).
-3. En **Settings → Secrets** pegar `CV_PREDICTION_ENDPOINT` y `CV_PREDICTION_KEY`.
-4. Abrir `https://<app>.streamlit.app` en el celular (HTTPS habilita la cámara). En el celular, **Subir archivo**
-   abre la cámara trasera nativa.
+**🔬 Experimento de daltonismo.** El modelo se usa como un observador estandarizado: clasifica la imagen
+**original**, la imagen **como la percibe** una persona con cada tipo de daltonismo y la imagen **corregida**
+por la aplicación tal como la percibe esa misma persona. Si la corrección funciona, el desempeño con corrección
+se acerca más al original que el desempeño sin corrección.
 
-## Desplegar en Railway
+## 🎨 6. Método de corrección de color
 
-El repositorio trae todo lo necesario: Railway encuentra el `Dockerfile` en la raíz, construye la imagen con
-`requirements-app.txt` y arranca con `scripts/start.sh`, que pasa a Streamlit el puerto asignado (`$PORT`).
-El modelo, las métricas y las capturas viajan dentro de la imagen, así que no hace falta volumen.
+Para cada tipo de daltonismo, el módulo `visionvial/daltonismo.py`:
 
-> Railway marcó `railway.toml`/`railway.json` (Config as Code) como obsoletos: los servicios nuevos ya no
-> pueden usarlos. Por eso la configuración va en el `Dockerfile` y, de forma opcional, en `.railway/railway.ts`.
+1. **Simula** cómo percibe la imagen la persona, con las matrices de Machado, Oliveira y Fernandes (2009) en RGB
+   lineal y una severidad de 0 a 1.
+2. **Calcula la información perdida**: original − simulada.
+3. **Redistribuye** esa pérdida hacia los canales que la persona sí percibe (Fidaner, Lin y Ozguven, 2005) y la
+   suma a la imagen original.
 
-### Opción A: desde el panel (conectado a GitHub, recomendado)
+| Tipo | Colores que confunde | Efecto de la corrección |
+|---|---|---|
+| Protanopía (conos L) | rojo ↔ verde | los rojos se desplazan hacia rosado/magenta y los verdes se oscurecen |
+| Deuteranopía (conos M) | rojo ↔ verde | los rojos tiran a magenta y los verdes se vuelven más puros |
+| Tritanopía (conos S) | azul ↔ verde, amarillo ↔ rosado | los azules y amarillos cambian de tono para separarse |
 
-1. Subir el repositorio a GitHub.
-2. En [railway.com](https://railway.com): **New Project → Deploy from GitHub repo** → elegir `visionvial`.
-3. En el servicio, pestaña **Variables**: crear `CV_PREDICTION_ENDPOINT` y `CV_PREDICTION_KEY`.
-   Sin ellas la app usa el modelo ONNX de `modelos/actual/`.
-4. Pestaña **Settings**:
-   - **Networking → Generate Domain**: crea `https://<app>.up.railway.app` (HTTPS, necesario para la cámara).
-   - **Deploy → Healthcheck Path**: `/_stcore/health`. No usar `/health`: Streamlit no tiene esa ruta y el
-     despliegue falla con 502.
-   - No definir *Start Command*: lo da el `Dockerfile`.
-5. Cada `python vv.py publicar` (push a GitHub) dispara un nuevo despliegue.
+Ejemplo: con deuteranopía, la diferencia de color percibida entre un rojo y un verde de señal pasa de un ΔE de
+10,8 sin corrección a 52 con corrección, casi cinco veces mayor. Los blancos, negros y grises no cambian.
 
-### Opción B: desde la terminal (CLI de Railway)
+## 📱 7. Aplicación
 
 ```bash
-npm i -g @railway/cli
-sh scripts/railway_desplegar.sh     # login, proyecto, variables desde secrets.toml, despliegue y dominio
+pip install -r requirements-app.txt
+streamlit run app.py                 # http://localhost:8501
 ```
 
-Para redesplegar después de `python vv.py evaluar` o `python vv.py capturas`: `railway up --detach`
-(si el servicio no está conectado a GitHub).
+| Pestaña | Contenido | Fuente |
+|---|---|---|
+| 📷 Foto | cámara o archivo: señal, categoría y color en texto, imagen corregida y simulación | endpoint de Azure u ONNX |
+| 🗂️ Lote / dataset | varias imágenes o un ZIP con carpetas por etiqueta: accuracy, matriz de confusión y CSV | endpoint de Azure u ONNX |
+| 👁️ Simulador | la imagen con cada tipo de daltonismo, sin y con corrección | `daltonismo.py` |
+| 📊 Desempeño del modelo | métricas, gráficos y experimento de daltonismo | `resultados/` |
+| 🛠️ Entrenamiento en ACV | datos de la iteración y pantallazos del entrenamiento | `assets/entrenamiento/` |
+| ℹ️ Acerca de | funcionamiento, señales reconocidas y pantallazos de la app | `config.py`, `assets/app/` |
 
-### Opcional: infraestructura como código
+En la barra lateral el usuario elige su **tipo de daltonismo**, la **severidad**, la **intensidad de la corrección**
+y el **umbral de confianza**, que arranca en el valor recomendado por la evaluación. También elige el **motor de
+predicción**: el endpoint de Azure (la API publicada) o el ONNX local.
 
-`.railway/railway.ts` declara el servicio con su health check. Con el proyecto vinculado:
+## 🚀 8. Publicación en Railway
+
+🔗 **En línea:** https://vcdaltpf-production.up.railway.app/
+
+La aplicación lee del repositorio el modelo, las métricas y los pantallazos, así que se actualiza con cada push:
 
 ```bash
-npm install                 # instala el paquete `railway` (solo para este archivo)
-npx railway config plan     # muestra los cambios
-npx railway config apply    # los aplica
+python vv.py evaluar
+python vv.py publicar        # commit de modelos/, resultados/ y assets/ + git push → Railway redespliega
 ```
 
-### Probar la imagen en local
+Configuración del servicio en Railway:
+
+| Elemento | Valor |
+|---|---|
+| Construcción | `Dockerfile` de la raíz (Railway lo detecta automáticamente) |
+| Arranque | `scripts/start.sh`; no se define *Start Command* |
+| Variables | `CV_PREDICTION_ENDPOINT`, `CV_PREDICTION_KEY` y `PORT=8080` |
+| Dominio | *Settings → Networking → Generate Domain*, puerto `8080` |
+| Health check | `/_stcore/health` |
+
+Recomendaciones:
+
+- 🔒 **Credenciales:** la Prediction-Key solo va en `.streamlit/secrets.toml` (local) y en las variables de Railway;
+  nunca en el código ni en el notebook. Conviene regenerarla en Azure después de la entrega.
+- 💾 **Memoria:** la imagen instala solo `requirements-app.txt` (sin scikit-learn ni matplotlib). Aun así, revise la
+  pestaña *Metrics* del servicio, porque la app procesa fotos de celular.
+- 🧩 **Config as Code:** Railway marcó `railway.toml`/`railway.json` como obsoletos; por eso la configuración está en
+  el `Dockerfile` y, de forma opcional, en `.railway/railway.ts`.
+
+Alternativa desde la terminal: `sh scripts/railway_desplegar.sh` (CLI de Railway).
+
+## 🧪 9. Pruebas
 
 ```bash
-docker build -t visionvial .
-docker run --rm -p 8501:8501 -e CV_PREDICTION_ENDPOINT="..." -e CV_PREDICTION_KEY="..." visionvial
-# abrir http://localhost:8501
+python -m pytest tests -q
 ```
 
-### Costo y recursos
-
-Railway no tiene un plan gratuito permanente: la prueba da un crédito único y luego se pasa al plan Free
-(crédito mensual pequeño, 0,5 GB de RAM por servicio) o al Hobby. La app carga onnxruntime y procesa fotos de
-celular, así que conviene revisar el consumo de memoria en la pestaña **Metrics** del servicio.
-
-## Ejecutar en local
-
-```bash
-streamlit run app.py
-```
-
-## Probar el flujo sin el modelo real
+Verifican que la corrección aumente el contraste rojo-verde percibido, que la severidad 0 no altere la imagen y que
+el clasificador ONNX funcione con un modelo sintético que tiene la misma interfaz que el exportado por Custom Vision.
+Para probar el flujo sin el modelo real:
 
 ```bash
 python tests/onnx_sintetico.py /tmp/modelo_sintetico.zip
 python vv.py modelo --archivo /tmp/modelo_sintetico.zip --iteracion prueba
-python vv.py evaluar --sin-experimento
 ```
 
-El modelo sintético tiene la misma interfaz que el exportado por Custom Vision, pero sus predicciones son
-aleatorias: sirve solo para verificar el flujo. Vuelva a registrar el modelo real antes de publicar.
+## 📝 Notas y limitaciones
 
-## Referencias
+- **Señalización alemana vs. colombiana:** las reglamentarias de GTSRB son prácticamente iguales a las colombianas
+  (Convención de Viena), pero las preventivas alemanas son triángulos blancos con borde rojo y en Colombia son
+  rombos amarillos. La opción `--extra` permite sumar fotos propias para acercar el dataset a la señalización local.
+- **Clasificación, no detección:** el modelo clasifica la imagen completa, por lo que funciona mejor con la señal
+  centrada y encuadrada. La detección en la escena completa queda como trabajo futuro.
+- **Dominio compact:** se eligió para poder exportar el modelo a ONNX. Estos dominios están optimizados para
+  dispositivos y pueden ser algo menos precisos que *General [A2]*.
+- **Experimento de daltonismo:** el modelo no es una persona; reconoce principalmente la forma. Por eso el
+  experimento se complementa con la pérdida de color (ΔE) del notebook. La simulación es un modelo matemático de la
+  dicromacia, no una medición con usuarios.
+- **Prototipo académico:** no reemplaza la atención del conductor ni la señalización real.
+
+## 📚 Referencias
 
 - Fidaner, O., Lin, P. y Ozguven, N. (2005). *Analysis of Color Blindness*. Stanford University.
 - Machado, G. M., Oliveira, M. M. y Fernandes, L. A. F. (2009). A physiologically-based model for simulation of color
-  vision deficiency. *IEEE TVCG*, 15(6), 1291–1298.
+  vision deficiency. *IEEE Transactions on Visualization and Computer Graphics*, 15(6), 1291–1298.
+- Microsoft. *Azure AI Custom Vision documentation*. https://learn.microsoft.com/azure/ai-services/custom-vision-service/
+- Ministerio de Transporte de Colombia. *Manual de Señalización Vial*.
 - Stallkamp, J., Schlipsing, M., Salmen, J. e Igel, C. (2012). Man vs. computer: Benchmarking machine learning
   algorithms for traffic sign recognition. *Neural Networks*, 32, 323–332.

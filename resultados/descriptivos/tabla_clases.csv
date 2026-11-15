@@ -1,0 +1,12 @@
+categoria,clase,train,test,total,%_train,%_test
+Preventiva,curva_peligrosa,150.0,50.0,200.0,10.0,10.0
+Preventiva,peatones,150.0,50.0,200.0,10.0,10.0
+Preventiva,semaforo_adelante,150.0,50.0,200.0,10.0,10.0
+Preventiva,zona_escolar,150.0,50.0,200.0,10.0,10.0
+Reglamentaria,ceda_el_paso,150.0,50.0,200.0,10.0,10.0
+Reglamentaria,no_entre,150.0,50.0,200.0,10.0,10.0
+Reglamentaria,pare,150.0,50.0,200.0,10.0,10.0
+Reglamentaria,prohibido_adelantar,150.0,50.0,200.0,10.0,10.0
+Reglamentaria,velocidad_maxima,150.0,50.0,200.0,10.0,10.0
+Transitoria,obras,150.0,50.0,200.0,10.0,10.0
+total,,1500.0,500.0,2000.0,100.0,100.0

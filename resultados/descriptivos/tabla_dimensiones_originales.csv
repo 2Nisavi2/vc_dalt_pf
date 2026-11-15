@@ -1,0 +1,11 @@
+clase,imagenes,ancho_min,ancho_mediana,ancho_max,alto_min,alto_mediana,alto_max,bajo_lado_minimo
+ceda_el_paso,200,33,87.0,224,32,87.0,201,200
+curva_peligrosa,200,32,74.5,200,32,69.0,181,200
+no_entre,200,32,48.0,120,32,50.5,127,200
+obras,200,35,105.5,243,34,95.5,225,200
+pare,200,32,92.5,216,34,93.5,211,200
+peatones,200,34,57.0,260,32,55.0,229,200
+prohibido_adelantar,200,32,70.0,147,32,72.0,156,200
+semaforo_adelante,200,34,63.0,208,32,58.5,191,200
+velocidad_maxima,200,32,74.0,161,32,72.5,168,200
+zona_escolar,200,35,72.0,176,32,65.0,179,200
