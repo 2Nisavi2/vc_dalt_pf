@@ -1,0 +1,10 @@
+ceda_el_paso
+curva_peligrosa
+no_entre
+obras
+pare
+peatones
+prohibido_adelantar
+semaforo_adelante
+velocidad_maxima
+zona_escolar

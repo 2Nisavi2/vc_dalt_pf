@@ -1,0 +1,38 @@
+{
+  "tipo": "onnx",
+  "archivo": "model.onnx",
+  "id": "568bd5dc9fc8",
+  "iteracion": "Iteration2",
+  "dominio": "General (compact)",
+  "nota": null,
+  "etiquetas": [
+    "ceda_el_paso",
+    "curva_peligrosa",
+    "no_entre",
+    "obras",
+    "pare",
+    "peatones",
+    "prohibido_adelantar",
+    "semaforo_adelante",
+    "velocidad_maxima",
+    "zona_escolar"
+  ],
+  "origen": "export_onnx.zip",
+  "registrado": "2026-11-15T00:37:30",
+  "endpoint": "https://eastus.api.cognitive.microsoft.com/customvision/v3.0/Prediction/9c11e9e0-3810-4e18-b693-bb9279a94bcd/classify/iterations/Iteration3",
+  "iteracion_endpoint": "Iteration3",
+  "nota_endpoint": null,
+  "endpoint_registrado": "2026-11-15T00:44:54",
+  "etiquetas_endpoint": [
+    "ceda_el_paso",
+    "curva_peligrosa",
+    "no_entre",
+    "obras",
+    "pare",
+    "peatones",
+    "prohibido_adelantar",
+    "semaforo_adelante",
+    "velocidad_maxima",
+    "zona_escolar"
+  ]
+}

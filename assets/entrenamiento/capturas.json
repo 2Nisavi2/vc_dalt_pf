@@ -1,0 +1,77 @@
+{
+  "generado": "2026-11-15T00:49:04",
+  "capturas": [
+    {
+      "archivo": "Paso_01.png",
+      "titulo": "Paso 1: Implementación del recurso en Azure",
+      "descripcion": "Portal de Azure: recurso creado en la suscripción y grupo de recursos.",
+      "original": "Paso_01.png"
+    },
+    {
+      "archivo": "Paso_02.png",
+      "titulo": "Paso 2: Creación del recurso de Custom Vision",
+      "descripcion": "Recurso de Custom Vision: nombre, región y nivel de precios.",
+      "original": "Paso_02.png"
+    },
+    {
+      "archivo": "Paso_03.png",
+      "titulo": "Paso 3: Creación del proyecto",
+      "descripcion": "Proyecto de clasificación multiclase y dominio elegido (compact si se exporta).",
+      "original": "Paso_03.png"
+    },
+    {
+      "archivo": "Paso_04.png",
+      "titulo": "Paso 4: Carga de imágenes por etiqueta",
+      "descripcion": "Carga de la carpeta de una etiqueta desde data/dataset/train/.",
+      "original": "Paso_04.png"
+    },
+    {
+      "archivo": "Paso_05.png",
+      "titulo": "Paso 5: Imágenes cargadas y etiquetadas",
+      "descripcion": "Las 10 etiquetas con su número de imágenes.",
+      "original": "Paso_05.png"
+    },
+    {
+      "archivo": "Paso_06.png",
+      "titulo": "Paso 6: Selección del tipo de entrenamiento",
+      "descripcion": "Quick Training o Advanced Training.",
+      "original": "Paso_06.png"
+    },
+    {
+      "archivo": "Paso_07.png",
+      "titulo": "Paso 7: Resultados de la iteración 1",
+      "descripcion": "Precision, recall y AP por etiqueta.",
+      "original": "Paso_07.png"
+    },
+    {
+      "archivo": "Paso_08.png",
+      "titulo": "Paso 8: Resultados de la iteración 2",
+      "descripcion": "Mejora frente a la iteración 1.",
+      "original": "Paso_08.png"
+    },
+    {
+      "archivo": "Paso_09.png",
+      "titulo": "Paso 9: Publicación de la iteración",
+      "descripcion": "Publish: nombre de la iteración publicada.",
+      "original": "Paso_09.png"
+    },
+    {
+      "archivo": "Paso_10.png",
+      "titulo": "Paso 10: Datos del endpoint",
+      "descripcion": "Prediction URL del servicio publicado.",
+      "original": "Paso_10.png"
+    },
+    {
+      "archivo": "Paso_11.png",
+      "titulo": "Paso 11: Exportación del modelo",
+      "descripcion": "Export > ONNX.",
+      "original": "Paso_11.png"
+    },
+    {
+      "archivo": "Paso_12.png",
+      "titulo": "Paso 12: Prueba rápida",
+      "descripcion": "Quick Test con una imagen nueva.",
+      "original": "Paso_12.png"
+    }
+  ]
+}

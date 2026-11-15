@@ -1,0 +1,4 @@
+categoria_real,imagenes,accuracy,error_categoria_pct
+Preventiva,200,0.875,2.5
+Reglamentaria,250,0.984,0.0
+Transitoria,50,0.68,32.0

@@ -1,0 +1,196 @@
+{
+  "evaluado": "2026-11-15T01:13:40",
+  "modelo": {
+    "id": "endpoint_Iteration3",
+    "tipo": "endpoint",
+    "descripcion": "Azure Custom Vision · endpoint (iteración Iteration3)",
+    "iteracion": "Iteration3",
+    "dominio": "General (compact)"
+  },
+  "conjunto_prueba": {
+    "imagenes": 500,
+    "clases": [
+      "ceda_el_paso",
+      "curva_peligrosa",
+      "no_entre",
+      "obras",
+      "pare",
+      "peatones",
+      "prohibido_adelantar",
+      "semaforo_adelante",
+      "velocidad_maxima",
+      "zona_escolar"
+    ]
+  },
+  "global": {
+    "accuracy": 0.91,
+    "precision_macro": 0.9243415233392496,
+    "recall_macro": 0.9099999999999999,
+    "f1_macro": 0.9118125141389504,
+    "auc_macro": 0.9927955555555557,
+    "auc_micro": 0.9960146666666666,
+    "error_categoria_pct": 4.2
+  },
+  "umbral_recomendado": 0.7,
+  "por_clase": [
+    {
+      "clase": "ceda_el_paso",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 50.0,
+      "auc": 1.0
+    },
+    {
+      "clase": "curva_peligrosa",
+      "precision": 0.9756,
+      "recall": 0.8,
+      "f1-score": 0.8791,
+      "support": 50.0,
+      "auc": 0.9875111111111111
+    },
+    {
+      "clase": "no_entre",
+      "precision": 0.9434,
+      "recall": 1.0,
+      "f1-score": 0.9709,
+      "support": 50.0,
+      "auc": 1.0
+    },
+    {
+      "clase": "obras",
+      "precision": 0.8718,
+      "recall": 0.68,
+      "f1-score": 0.764,
+      "support": 50.0,
+      "auc": 0.9738666666666667
+    },
+    {
+      "clase": "pare",
+      "precision": 1.0,
+      "recall": 0.92,
+      "f1-score": 0.9583,
+      "support": 50.0,
+      "auc": 1.0
+    },
+    {
+      "clase": "peatones",
+      "precision": 0.6389,
+      "recall": 0.92,
+      "f1-score": 0.7541,
+      "support": 50.0,
+      "auc": 0.9789777777777777
+    },
+    {
+      "clase": "prohibido_adelantar",
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 50.0,
+      "auc": 1.0
+    },
+    {
+      "clase": "semaforo_adelante",
+      "precision": 1.0,
+      "recall": 0.88,
+      "f1-score": 0.9362,
+      "support": 50.0,
+      "auc": 1.0
+    },
+    {
+      "clase": "velocidad_maxima",
+      "precision": 0.9804,
+      "recall": 1.0,
+      "f1-score": 0.9901,
+      "support": 50.0,
+      "auc": 1.0
+    },
+    {
+      "clase": "zona_escolar",
+      "precision": 0.8333,
+      "recall": 0.9,
+      "f1-score": 0.8654,
+      "support": 50.0,
+      "auc": 0.9876
+    }
+  ],
+  "experimento": [
+    {
+      "condicion": "original",
+      "tipo": "ninguno",
+      "correccion": "-",
+      "imagenes": 200,
+      "accuracy": 0.905,
+      "f1_macro": 0.9063,
+      "auc_macro": 0.9895,
+      "error_categoria_pct": 5.0,
+      "confianza_media": 0.9204
+    },
+    {
+      "condicion": "protanopia_sin_correccion",
+      "tipo": "protanopia",
+      "correccion": "sin",
+      "imagenes": 200,
+      "accuracy": 0.865,
+      "f1_macro": 0.8695,
+      "auc_macro": 0.9878,
+      "error_categoria_pct": 5.5,
+      "confianza_media": 0.8544
+    },
+    {
+      "condicion": "protanopia_con_correccion",
+      "tipo": "protanopia",
+      "correccion": "con",
+      "imagenes": 200,
+      "accuracy": 0.825,
+      "f1_macro": 0.83,
+      "auc_macro": 0.9849,
+      "error_categoria_pct": 6.0,
+      "confianza_media": 0.8048
+    },
+    {
+      "condicion": "deuteranopia_sin_correccion",
+      "tipo": "deuteranopia",
+      "correccion": "sin",
+      "imagenes": 200,
+      "accuracy": 0.88,
+      "f1_macro": 0.8826,
+      "auc_macro": 0.9909,
+      "error_categoria_pct": 5.5,
+      "confianza_media": 0.8555
+    },
+    {
+      "condicion": "deuteranopia_con_correccion",
+      "tipo": "deuteranopia",
+      "correccion": "con",
+      "imagenes": 200,
+      "accuracy": 0.84,
+      "f1_macro": 0.8444,
+      "auc_macro": 0.9866,
+      "error_categoria_pct": 5.0,
+      "confianza_media": 0.8189
+    },
+    {
+      "condicion": "tritanopia_sin_correccion",
+      "tipo": "tritanopia",
+      "correccion": "sin",
+      "imagenes": 200,
+      "accuracy": 0.915,
+      "f1_macro": 0.9169,
+      "auc_macro": 0.9944,
+      "error_categoria_pct": 4.0,
+      "confianza_media": 0.9006
+    },
+    {
+      "condicion": "tritanopia_con_correccion",
+      "tipo": "tritanopia",
+      "correccion": "con",
+      "imagenes": 200,
+      "accuracy": 0.92,
+      "f1_macro": 0.9218,
+      "auc_macro": 0.9951,
+      "error_categoria_pct": 4.0,
+      "confianza_media": 0.9137
+    }
+  ]
+}

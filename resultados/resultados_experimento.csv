@@ -1,0 +1,8 @@
+condicion,tipo,correccion,imagenes,accuracy,f1_macro,auc_macro,error_categoria_pct,confianza_media
+original,ninguno,-,200,0.905,0.9063,0.9895,5.0,0.9204
+protanopia_sin_correccion,protanopia,sin,200,0.865,0.8695,0.9878,5.5,0.8544
+protanopia_con_correccion,protanopia,con,200,0.825,0.83,0.9849,6.0,0.8048
+deuteranopia_sin_correccion,deuteranopia,sin,200,0.88,0.8826,0.9909,5.5,0.8555
+deuteranopia_con_correccion,deuteranopia,con,200,0.84,0.8444,0.9866,5.0,0.8189
+tritanopia_sin_correccion,tritanopia,sin,200,0.915,0.9169,0.9944,4.0,0.9006
+tritanopia_con_correccion,tritanopia,con,200,0.92,0.9218,0.9951,4.0,0.9137

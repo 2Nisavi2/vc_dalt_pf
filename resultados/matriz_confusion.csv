@@ -1,0 +1,11 @@
+,ceda_el_paso,curva_peligrosa,no_entre,obras,pare,peatones,prohibido_adelantar,semaforo_adelante,velocidad_maxima,zona_escolar
+ceda_el_paso,50,0,0,0,0,0,0,0,0,0
+curva_peligrosa,0,40,0,0,0,10,0,0,0,0
+no_entre,0,0,50,0,0,0,0,0,0,0
+obras,0,0,0,34,0,7,0,0,0,9
+pare,0,0,3,0,46,0,0,0,1,0
+peatones,0,0,0,4,0,46,0,0,0,0
+prohibido_adelantar,0,0,0,0,0,0,50,0,0,0
+semaforo_adelante,0,1,0,1,0,4,0,44,0,0
+velocidad_maxima,0,0,0,0,0,0,0,0,50,0
+zona_escolar,0,0,0,0,0,5,0,0,0,45

@@ -1,0 +1,13 @@
+clase,AUC,categoria
+ceda_el_paso,1.0,Reglamentaria
+curva_peligrosa,0.9875,Preventiva
+no_entre,1.0,Reglamentaria
+obras,0.9739,Transitoria
+pare,1.0,Reglamentaria
+peatones,0.979,Preventiva
+prohibido_adelantar,1.0,Reglamentaria
+semaforo_adelante,1.0,Preventiva
+velocidad_maxima,1.0,Reglamentaria
+zona_escolar,0.9876,Preventiva
+micro,0.996,
+macro,0.9928,
